@@ -23,13 +23,7 @@ const style = StyleSheet.create({
     width: "45%",
   },
   avatar: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    width: 120,
-    height: 120,
     backgroundColor: colorScheme.accentColor,
-    borderRadius: 100,
   },
   avatarIcon: {
     color: "white",

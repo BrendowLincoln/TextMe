@@ -6,6 +6,8 @@ const colorScheme = {
   secondAccentColor: "rgba(174, 174, 174, 1)",
   thirdColor: "#FFFFFF",
   infoTextColor: "rgba(166, 177, 233, 0.4)",
+  fourthColor: "#333540",
+  defaultGray: "#AEAEAE"
 };
 
 const globalStyle = StyleSheet.create({

@@ -1,5 +1,6 @@
 const User = (object) => {
   var model = {
+    id: "",
     nome: "",
     apelido: "",
     avatar: "",

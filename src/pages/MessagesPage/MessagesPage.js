@@ -3,238 +3,157 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { colorScheme, globalStyle } from "../../shared/styles/GlobalStyle";
 import styles from "./Style";
 import useAuth from "../../hooks/useAuth";
-import { useEffect } from "react";
-import { FAB } from "react-native-paper";
+import { useEffect, useState } from "react";
+import { IconButton, FAB, MD3Colors } from "react-native-paper";
 import { Avatar } from "react-native-paper";
-import LastMessage from "./components/LastMessageCard/LastMessage";
+import { useNavigation } from "@react-navigation/native";
+import LastMessageCard from "./components/LastMessageCard/LastMessageCard";
+import { getMessages, getUsersWithMessages } from "../../shared/apis/messagerApi";
+import moment from "moment";
 
 const MessagesPage = () => {
+  const navigation = useNavigation();
   const { userData, logout } = useAuth();
+  const [messages, setMessages] = useState([]);
 
-  const messages = [
-    {
-      id: 1,
-      nome: "Brendow",
-      message: "Olá!",
-      hora: "21:01",
-      avatar:
-        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80",
-    },
-    {
-      id: 2,
-      nome: "Brendow",
-      message: "Olá!",
-      hora: "21:01",
-      avatar:
-        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80",
-    },
-    {
-      id: 3,
-      nome: "Brendow",
-      message: "Olá!",
-      hora: "21:01",
-      avatar:
-        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80",
-    },
-    {
-      id: 4,
-      nome: "Brendow",
-      message: "Olá!",
-      hora: "21:01",
-      avatar:
-        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80",
-    },
-    {
-      id: 5,
-      nome: "Brendow",
-      message: "Olá!",
-      hora: "21:01",
-      avatar:
-        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80",
-    },
-    {
-      id: 6,
-      nome: "Brendow",
-      message: "Olá!",
-      hora: "21:01",
-      avatar:
-        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80",
-    },
-    {
-      id: 7,
-      nome: "Brendow",
-      message: "Olá!",
-      hora: "21:01",
-      avatar:
-        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80",
-    },
-    {
-      id: 8,
-      nome: "Brendow",
-      message: "Olá!",
-      hora: "21:01",
-      avatar:
-        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80",
-    },
-    {
-      id: 9,
-      nome: "Brendow",
-      message: "Olá!",
-      hora: "21:01",
-      avatar:
-        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80",
-    },
-    {
-      id: 10,
-      nome: "Brendow",
-      message: "Olá!",
-      hora: "21:01",
-      avatar:
-        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80",
-    },
-    {
-      id: 11,
-      nome: "Brendow",
-      message: "Olá!",
-      hora: "21:01",
-      avatar:
-        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80",
-    },
-    {
-      id: 12,
-      nome: "Brendow",
-      message: "Olá!",
-      hora: "21:01",
-      avatar:
-        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80",
-    },
-    {
-      id: 13,
-      nome: "Brendow",
-      message: "Olá!",
-      hora: "21:01",
-      avatar:
-        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80",
-    },
-    {
-      id: 14,
-      nome: "Brendow",
-      message: "Olá!",
-      hora: "21:01",
-      avatar:
-        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80",
-    },
-    {
-      id: 15,
-      nome: "Brendow",
-      message: "Olá!",
-      hora: "21:01",
-      avatar:
-        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80",
-    },
-    {
-      id: 16,
-      nome: "Brendow",
-      message: "Olá!",
-      hora: "21:01",
-      avatar:
-        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80",
-    },
-    {
-      id: 17,
-      nome: "Brendow",
-      message: "Olá!",
-      hora: "21:01",
-      avatar:
-        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80",
-    },
-    {
-      id: 18,
-      nome: "Brendow",
-      message: "Olá!",
-      hora: "21:01",
-      avatar:
-        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80",
-    },
-    {
-      id: 19,
-      nome: "Brendow",
-      message: "Olá!",
-      hora: "21:01",
-      avatar:
-        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80",
-    },
-    {
-      id: 20,
-      nome: "Brendow",
-      message: "Olá!",
-      hora: "21:01",
-      avatar:
-        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80",
-    },
-    {
-      id: 21,
-      nome: "Brendow",
-      message: "Olá!",
-      hora: "21:01",
-      avatar:
-        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80",
-    },
-    {
-      id: 22,
-      nome: "Brendow",
-      message: "Olá!",
-      hora: "21:01",
-      avatar:
-        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80",
-    },
-  ];
+  let fetchTimer = null;
 
   useEffect(() => {
-    console.log(userData);
+    if(userData) {
+      fetchTimer =  setTimeout(() => fetchLastMessages(), 1000);
+    }
+  }, [])
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      console.log("voltou");
+      console.log("fetch: ", fetchTimer);
+      console.log("userData: ", userData);
+      if(userData) {
+        fetchTimer =  setTimeout(() => fetchLastMessages(), 1000);
+      }
+    });
+
+    return unsubscribe;
+  }, [navigation]);
+
+  useEffect(() => {
+    if(userData) {
+      fetchTimer = setTimeout(() => fetchLastMessages(), 1000);
+    }
   }, [userData]);
 
+  const fetchLastMessages = () => {
+    let handledLastUsersMessages = [];
+    getUsersWithMessages(userData.id)
+    .then((response) => {
+      const lastUsers = response.filter((r) => r.id !== userData.id);
+      lastUsers.forEach((lu) => {
+        getMessages(userData.id, lu.id).then((r) => {
+          if(r) {
+            const lastMessage = _getLasMessage(r);
+
+            const LastMessageWithUser = {
+              "id": lu.id,
+              "contact": lu,
+              "lastMessage": lastMessage
+            }
+
+            handledLastUsersMessages.push(LastMessageWithUser);
+          }
+
+          handledLastUsersMessages = handledLastUsersMessages.sort((a, b) => {
+            const dataA = moment(a.lastMessage.dataHora);
+            const dataB = moment(b.lastMessage.dataHora);
+          
+            return dataB - dataA;
+          })
+          setMessages(handledLastUsersMessages);
+        })
+      })
+
+    });
+  }
+
+  const _getLasMessage = (messages) => {
+    const orderedMessages = messages.sort((a, b) => {
+      const dataA = moment(a.dataHora);
+      const dataB = moment(b.dataHora);
+    
+      return dataB - dataA;
+    })
+
+    return orderedMessages[0];
+  }
+
   return (
-    <SafeAreaView style={globalStyle.page}>
-      <View style={styles.headerContainer}>
-        <Avatar.Image
-          style={styles.avatar}
-          source={{
-            uri: "https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mjd8fHByb2ZpbGV8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60",
-          }}
-          size={100}
-        />
-        <View style={styles.actionContainer}>
-          <View style={styles.newChatButtonContainer}>
-            <MaterialIcons
-              style={styles.newChatButton}
-              name="logout"
-              size={30}
-              onPress={() => logout()}
+    userData && (
+      <SafeAreaView style={globalStyle.page}>
+        <View style={styles.headerContainer}>
+          <View style={styles.avatarContainer}>
+            <Avatar.Image
+              style={styles.avatar}
+              source={{
+                uri: userData.avatar,
+              }}
+              size={90}
             />
+            <View style={styles.presentationContainer}>
+              <Text style={styles.presentationText}>Bem vindo, </Text>
+              <Text numberOfLines={1} style={styles.presentationTextName}>
+                {userData.nome}
+              </Text>
+            </View>
+          </View>
+          <View style={styles.actionContainer}>
+            <View style={styles.logoutButtonContainer}>
+              <IconButton
+                icon="logout-variant"
+                iconColor={colorScheme.accentColor}
+                mode="contained"
+                backgroundColor={colorScheme.thirdColor}
+                style={styles.logoutButton}
+                onPress={() => logout()}
+              />
+            </View>
           </View>
         </View>
-      </View>
-      <View style={styles.pageTitleContainer}>
-        <Text style={styles.pageTitle}>Messages</Text>
-      </View>
-      <FlatList
-        data={messages}
-        renderItem={({ item }) => <LastMessage lastMessage={item} />}
-        keyExtractor={(item) => item.id}
-        style={styles.messageListContainer}
-      />
-
-      <FAB
-        icon="plus"
-        mode="elevated"
-        variant="secondary"
-        color="white"
-        backgroundColor={colorScheme.accentColor}
-        style={styles.fab}
-        onPress={() => console.log("Clicou no FAB!")}
-      />
-    </SafeAreaView>
+        <View style={styles.pageTitleContainer}>
+          <Text style={styles.pageTitle}>Mensagens</Text>
+        </View>
+        <FlatList
+          data={messages}
+          renderItem={({ item }) => <LastMessageCard 
+            lastMessageContact={item} 
+            wasUser={userData.id === item.lastMessage.from.id}
+          />}
+          keyExtractor={(item) => item.id}
+          showsVerticalScrollIndicator={false}
+          ListEmptyComponent={() => (
+            <View style={styles.noMessagesFoundContainer}>
+              <MaterialIcons
+                name="search-off"
+                size={40}
+                style={styles.noMessagesFoundIcon}
+              />
+              <Text style={styles.noMessagesFoundText}>
+                Nenhuma mensagem encontrada
+              </Text>
+            </View>
+          )}
+          style={styles.messageList}
+        />
+        <FAB
+          icon="message-plus"
+          mode="elevated"
+          color={colorScheme.accentColor}
+          backgroundColor={colorScheme.thirdColor}
+          customSize={55}
+          style={styles.fab}
+          onPress={() => navigation.navigate("NewMessage")}
+        />
+      </SafeAreaView>
+    )
   );
 };
 

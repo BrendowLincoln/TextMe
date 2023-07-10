@@ -7,11 +7,12 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
-    gap: 5,
+    gap: 10,
     borderBottomColor: "rgba(166, 177, 233, 0.40)",
     borderBottomWidth: 1,
     borderStyle: "solid",
     paddingVertical: 15,
+    paddingHorizontal: 5,
   },
 
   infoContainer: {
@@ -21,16 +22,23 @@ const styles = StyleSheet.create({
     alignItems: "baseline",
     gap: 10,
     height: "100%",
+    width: "65%",
   },
   name: {
     color: "white",
     fontSize: 15,
     fontWeight: 700,
   },
+  mesageContainer: {
+    display: "flex",
+    flexDirection: "row",
+    width: "100%",
+  },
+  
   message: {
     color: "#BABABA",
     fontSize: 12,
-    fontWeight: 500,
+    fontWeight: 500
   },
   hourContainer: {
     display: "flex",
@@ -38,7 +46,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "flex-end",
     alignItems: "flex-start",
-    height: "100%",
+    height: "100%"
   },
   hour: {
     color: "#BABABA",

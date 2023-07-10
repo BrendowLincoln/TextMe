@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, Image } from "react-native";
+import { View, Text, SafeAreaView, Image, Alert } from "react-native";
 import style from "./Style";
 import { colorScheme, globalStyle } from "../../shared/styles/GlobalStyle";
 import AuthForm from "./components/AuthForm/AuthForm";
@@ -7,9 +7,13 @@ import { useEffect } from "react";
 import useAuth from "../../hooks/useAuth";
 
 const LoginPage = () => {
-  const { loading } = useAuth();
+  const { loading, loginError } = useAuth();
 
-  useEffect(() => {}, [loading]);
+  useEffect(() => {
+    if (!loading && loginError) {
+      Alert.alert(loginError);
+    }
+  }, [loading]);
 
   return loading ? (
     <SafeAreaView style={[globalStyle.page, style.customAligment]}>
@@ -30,8 +34,5 @@ const LoginPage = () => {
     </SafeAreaView>
   );
 };
-
-/// ISso aqui ta feito??
-// Essa tela eu digo manda print dela
 
 export default LoginPage;

@@ -23,6 +23,7 @@ import {
   telephoneFormatter,
 } from "../../shared/utils/FormaterHelper";
 import { ErrorMessage } from "../../shared/models/ErrorMessage";
+import { Avatar } from "react-native-paper";
 
 const RegisterPage = () => {
   const navigation = useNavigation();
@@ -153,7 +154,8 @@ const RegisterPage = () => {
     });
 
     if (!response.canceled) {
-      setUser({ ...user, avatar: response.assets[0].uri });
+      var imageStringToStorage = `data:image/png;base64,${response.assets[0].base64}`;
+      setUser({ ...user, avatar: imageStringToStorage });
     }
   };
 
@@ -171,13 +173,14 @@ const RegisterPage = () => {
     });
 
     if (!response.canceled) {
-      setUser({ ...user, avatar: response.assets[0].uri });
+      var imageStringToStorage = `data:image/png;base64,${response.assets[0].base64}`;
+      setUser({ ...user, avatar: imageStringToStorage });
     }
   };
 
   const removeImage = () => {
-    if (image) {
-      setImage(null);
+    if (user.avatar) {
+      setUser({ ...user, avatar: "" });
     }
   };
 
@@ -226,17 +229,16 @@ const RegisterPage = () => {
             style={style.avatarContainer}
             onPress={() => photoChange()}
           >
-            {!user.avatar ? (
-              <View style={style.avatar}>
-                <MaterialIcons
-                  style={style.avatarIcon}
-                  name="photo-camera"
-                  size={50}
-                  backgroundColor="transparent"
-                />
-              </View>
+            {user.avatar ? (
+              <Avatar.Image
+                style={style.avatar}
+                source={{
+                  uri: user.avatar,
+                }}
+                size={120}
+              />
             ) : (
-              <Image source={{ uri: user.avatar }} style={style.avatar} />
+              <Avatar.Icon style={style.avatar} icon="camera-plus" size={120} />
             )}
           </TouchableOpacity>
         </View>

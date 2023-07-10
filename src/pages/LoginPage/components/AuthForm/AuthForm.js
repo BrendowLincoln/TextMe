@@ -20,10 +20,9 @@ const AuthForm = (props) => {
   const [hidePassword, setHidePassword] = useState(true);
   const [telephoneDisplay, setTelephoneDisplay] = useState("");
 
-  const { login } = useAuth();
+  const { login, loginErro } = useAuth();
 
   const handleLogin = () => {
-    console.log(`Telefone: ${user.telefone} - Senha: ${user.senha}`);
     login(user.telefone, user.senha);
   };
 

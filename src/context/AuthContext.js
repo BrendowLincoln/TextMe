@@ -4,7 +4,7 @@ import React, { createContext, useEffect, useState } from "react";
 
 const ONLINE_SERVER_URL =
   "http://bdfemasschat-env-2.eba-7p43uarw.sa-east-1.elasticbeanstalk.com";
-const LOCAL_SERVER_URL = "http://192.168.1.19:8080";
+const LOCAL_SERVER_URL = "http://192.168.1.10:8080";
 const BASE_API = LOCAL_SERVER_URL;
 
 const AuthContext = createContext();
@@ -111,6 +111,7 @@ const AuthProvider = ({ children }) => {
     await AsyncStorage.removeItem("usuario");
     await AsyncStorage.removeItem("usuario_hash");
     setAuthenticated(false);
+    setUserData(null);
   };
 
   const signup = async ({ nome, avatar, senha, email, telefone }) => {
